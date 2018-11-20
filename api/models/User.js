@@ -45,12 +45,18 @@ module.exports = {
 
     password: {
       type: 'string',
-      required: true,
+      required: false,
       description: 'Securely hashed representation of the user\'s login password.',
       protect: true,
       example: '2$28a8eabna301089103-13948134nad'
     },
 
+    userID: {
+      type: "string",
+      unique: true,
+      required: false,
+      description: "User ID of facebook"
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

@@ -28,14 +28,6 @@ password attempt.`,
       required: true
     },
 
-    rememberMe: {
-      description: 'Whether to extend the lifetime of the user\'s session.',
-      extendedDescription:
-`Note that this is NOT SUPPORTED when using virtual requests (e.g. sending
-requests over WebSockets instead of HTTP).`,
-      type: 'boolean'
-    }
-
   },
 
 

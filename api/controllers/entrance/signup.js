@@ -95,7 +95,8 @@ the account verification message.)`,
       firstName: inputs.firstName,
       lastName: inputs.lastName,
       gender: inputs.gender || '',
-      birthDay: inputs.birthDay || ''
+      birthDay: inputs.birthDay || '',
+      userID: null
     }).fetch();
     
     this.res.json(newUserRecord);
