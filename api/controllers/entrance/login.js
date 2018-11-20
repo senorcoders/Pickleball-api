@@ -16,7 +16,7 @@ password attempt.`,
 
   inputs: {
 
-    emailAddress: {
+    email: {
       description: 'The email to try in this attempt, e.g. "irl@example.com".',
       type: 'string',
       required: true
@@ -75,7 +75,7 @@ and exposed as \`req.me\`.)`
     // (note that we lowercase it to ensure the lookup is always case-insensitive,
     // regardless of which database we're using)
     var userRecord = await User.findOne({
-      emailAddress: inputs.emailAddress.toLowerCase(),
+      email: inputs.email.toLowerCase(),
     });
 
     // If there was no matching user, respond thru the "badCombo" exit.
@@ -87,26 +87,7 @@ and exposed as \`req.me\`.)`
     await sails.helpers.passwords.checkPassword(inputs.password, userRecord.password)
     .intercept('incorrect', 'badCombo');
 
-    // If "Remember Me" was enabled, then keep the session alive for
-    // a longer amount of time.  (This causes an updated "Set Cookie"
-    // response header to be sent as the result of this request -- thus
-    // we must be dealing with a traditional HTTP request in order for
-    // this to work.)
-    if (inputs.rememberMe) {
-      if (this.req.isSocket) {
-        sails.log.warn(
-          'Received `rememberMe: true` from a virtual request, but it was ignored\n'+
-          'because a browser\'s session cookie cannot be reset over sockets.\n'+
-          'Please use a traditional HTTP request instead.'
-        );
-      } else {
-        this.req.session.cookie.maxAge = sails.config.custom.rememberMeCookieMaxAge;
-      }
-    }//ﬁ
-
-    // Modify the active session instance.
-    // (This will be persisted when the response is sent.)
-    this.req.session.userId = userRecord.id;
+    this.res.json(userRecord);
 
   }
 
