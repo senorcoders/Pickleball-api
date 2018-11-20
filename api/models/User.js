@@ -29,7 +29,8 @@ module.exports = {
     },
 
     birthDay: {
-      type: "datetime",
+      type: 'string', 
+      columnType: 'datetime',
       required: false
     },
 
