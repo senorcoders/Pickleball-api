@@ -58,6 +58,11 @@ module.exports = {
       description: "User ID of facebook"
     },
 
+    rank: {
+      type: "integer",
+      required: false
+    },
+
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
     //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
