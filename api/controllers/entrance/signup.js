@@ -96,7 +96,7 @@ the account verification message.)`,
       lastName: inputs.lastName,
       gender: inputs.gender || '',
       birthDay: inputs.birthDay || '',
-      userID: null
+      userID: "unique-"+ email
     }).fetch();
     
     this.res.json(newUserRecord);

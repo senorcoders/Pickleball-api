@@ -66,6 +66,11 @@ module.exports = {
     loginFacebook:{
       type: "json",
       required: false
+    },
+
+    image: {
+      type: "json",
+      required: false
     }
 
     //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗

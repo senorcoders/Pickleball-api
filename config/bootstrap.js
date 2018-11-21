@@ -54,9 +54,9 @@ module.exports.bootstrap = async function() {
 
   // Since the hard-coded data version has been incremented, and we're running in
   // a "throwaway data" environment, delete all records from all models.
-  for (let identity in sails.models) {
-    await sails.models[identity].destroy({});
-  }//∞
+  // for (let identity in sails.models) {
+  //   await sails.models[identity].destroy({});
+  // }//∞
 
   // By convention, this is a good place to set up fake data during development.
   await User.createEach([

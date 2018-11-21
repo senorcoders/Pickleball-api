@@ -50,17 +50,13 @@ module.exports.routes = {
   //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
   //  ╩ ╩╩  ╩  ╚═╝╝╚╝═╩╝╩  ╚═╝╩╝╚╝ ╩ ╚═╝
-  // Note that, in this app, these API endpoints may be accessed using the `Cloud.*()` methods
-  // from the Parasails library, or by using those method names as the `action` in <ajax-form>.
-  // '/api/v1/account/logout':                           { action: 'account/logout' },
-  // 'PUT   /api/v1/account/update-password':            { action: 'account/update-password' },
-  // 'PUT   /api/v1/account/update-profile':             { action: 'account/update-profile' },
-  // 'PUT   /api/v1/account/update-billing-card':        { action: 'account/update-billing-card' },
+  
   'PUT   /login': { action: 'entrance/login' },
   'POST  /signup': { action: 'entrance/signup' },
-  'PUT /login-facebook': 'FacebookController.auth'
-  // 'POST  /api/v1/entrance/send-password-recovery-email': { action: 'entrance/send-password-recovery-email' },
-  // 'POST  /api/v1/entrance/update-password-and-login':    { action: 'entrance/update-password-and-login' },
-  // 'POST  /api/v1/deliver-contact-form-message':          { action: 'deliver-contact-form-message' },
+  'PUT /login-facebook': 'FacebookController.auth',
+  
+  'PATCH /image/user/:userId': "ImageController.saveImageUser",
+
+  "GET /images/:type/:nameFile/:id": "ImageController.getImage"
 
 };
