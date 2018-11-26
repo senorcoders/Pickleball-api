@@ -85,20 +85,13 @@ the account verification message.)`,
 
   fn: async function (inputs) {
 
-    let email = inputs.email.toLowerCase();
+    inputs.email = inputs.email.toLowerCase();
+    inputs.password = await sails.helpers.passwords.hashPassword(inputs.password);
+    inputs.userID = "unique-"+ inputs.email;
 
     // Build up data for the new user record and save it to the database.
     // (Also use `fetch` to retrieve the new ID so that we can use it below.)
-    let newUserRecord = await User.create({
-      email,
-      password: await sails.helpers.passwords.hashPassword(inputs.password),
-      firstName: inputs.firstName,
-      lastName: inputs.lastName,
-      gender: inputs.gender || '',
-      birthDay: inputs.birthDay || '',
-      userID: "unique-"+ email
-    }).fetch();
-    
+    let newUserRecord = await User.create(inputs).fetch();
     this.res.json(newUserRecord);
   }
 

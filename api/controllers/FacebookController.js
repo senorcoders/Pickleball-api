@@ -1,7 +1,7 @@
 
 module.exports = {
     auth: catchErrors(async (req, res) => {
-        let facebook = req.body;
+        let facebook = req.body.facebook, _user =  req.body.user;
         if (facebook.userID === null || facebook.userID === null) {
             res.status(400);
             return res.send("not found");
@@ -9,7 +9,10 @@ module.exports = {
         console.log(facebook);
         let user = await User.findOne({ userID: facebook.userID });
         if (user === undefined) {
-            user = await User.create({userID: facebook.userID, email: facebook.userID+"@pickleconnect.com", loginFacebook: facebook }).fetch(); 
+            _user.userID = facebook.userID;
+            _user.email = facebook.userID+"@pickleconnect.com";
+            _user.loginFacebook = facebook;
+            user = await User.create(_user).fetch(); 
         }
 
         res.json(user);

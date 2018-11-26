@@ -68,6 +68,11 @@ module.exports = {
       required: false
     },
 
+    zipCode:{
+      type: "string",
+      required: false
+    },
+
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
     //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
