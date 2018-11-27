@@ -59,7 +59,7 @@ module.exports = {
     },
 
     rank: {
-      type: "integer",
+      type: "number",
       required: false
     },
 
