@@ -10,7 +10,7 @@ module.exports = {
         let user = await User.findOne({ userID: facebook.userID });
         if (user === undefined) {
             _user.userID = facebook.userID;
-            _user.email = facebook.userID+"@pickleconnect.com";
+            _user.email = _user.email || facebook.userID+"@pickleconnect.com";
             _user.loginFacebook = facebook;
             user = await User.create(_user).fetch(); 
         }
