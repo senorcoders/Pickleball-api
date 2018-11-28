@@ -42,5 +42,13 @@ module.exports.routes = {
    * FOR MANAGE MODEL USER
    * 
    */
-  "GET users/finds": "UserController.search"
+  "GET /users/finds": "UserController.search",
+
+
+  /***********
+   * 
+   * FOR REQUEST FRIEND
+   * 
+   */
+  "POST /requestfriend": "RequestFriendController.save"
 };
