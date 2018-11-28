@@ -86,6 +86,12 @@ module.exports = {
     image: {
       type: "json",
       required: false
+    },
+
+    tokens: {
+      type: "json",
+      columnType: "array",
+      required: false
     }
 
     //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
