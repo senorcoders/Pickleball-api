@@ -28,6 +28,9 @@
 ### FOR IMAGES
 images/
 
+### FOR PUSH NOTIFICATION
+notifications/
+
 ################################################
 # Local Configuration
 #
