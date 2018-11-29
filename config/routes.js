@@ -27,6 +27,8 @@ module.exports.routes = {
   'PUT   /login': { action: 'entrance/login' },
   'POST  /signup': { action: 'entrance/signup' },
   'PUT /login-facebook': 'FacebookController.auth',
+
+  "PUT /logout": "UserController.logout",
   
   /**********
    * 
