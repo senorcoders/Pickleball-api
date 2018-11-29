@@ -23,11 +23,12 @@ module.exports = {
             let index = user.tokens.findIndex(it => {
                 return it === token;
             });
-            if(index!==-1){
-                if(user.tokens.length===0)
+            if (index !== -1) {
+                if (user.tokens.length === 0)
                     user.tokens = [];
                 else
                     user.tokens.splice(index, 1);
+                await User.update({ id: user.id }, { tokens: user.tokens });
             }
         }
 
