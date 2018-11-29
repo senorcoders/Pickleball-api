@@ -23,13 +23,18 @@ module.exports = {
       example: "Lara"
     },
 
-    gender:{
+    fullName: {
+      type: "string",
+      required: false
+    },
+
+    gender: {
       type: "string",
       required: false
     },
 
     birthDay: {
-      type: 'string', 
+      type: 'string',
       columnType: 'datetime',
       required: false
     },
@@ -63,12 +68,13 @@ module.exports = {
       required: false
     },
 
-    searchable:{
+    searchable: {
       type: "boolean",
-      required: false
+      required: false,
+      defaultsTo: true
     },
 
-    zipCode:{
+    zipCode: {
       type: "string",
       required: false
     },
@@ -78,7 +84,7 @@ module.exports = {
     //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
     // n/a
 
-    loginFacebook:{
+    loginFacebook: {
       type: "json",
       required: false
     },

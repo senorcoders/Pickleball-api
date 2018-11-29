@@ -43,7 +43,7 @@ module.exports = {
 
   afterCreate: async (request, proceed) => {
     try {
-      let user = await User.findOne({ id: request.id });
+      let user = await User.findOne({ id: request.to });
       let tokens = helper.cleanTokensId(user.tokens);
       if (helper.checkTokensID(tokens) === false) {
         return proceed();
@@ -86,6 +86,54 @@ module.exports = {
     }
 
     proceed();
+  },
+
+  beforeUpdate: async (valuesToSet, proceed) => {
+    try {
+      if (valuesToSet.response !== true) {
+        return proceed();
+      }
+
+      let user = await User.findOne({ id: request.from });
+      let tokens = helper.cleanTokensId(user.tokens);
+      if (helper.checkTokensID(tokens) === false) {
+        return proceed();
+      }
+
+      let requestAll = await RequestFriend.findOne({ id: request.id }).populate("to");
+      delete requestAll.to.tokens;
+
+      let payload = {
+        'notification': {
+          'title': `Your request has been accepted by ${user.fullName}`,
+          'body': ``,
+          "sound": "default",
+          "delivery_receipt_requested": "true"
+        },
+        data: JSON.stringify(requestAll)
+      }
+
+      payload = helper.normalizePayload(payload);
+
+      await new Promise(() => {
+        notification.messaging().sendToDevice(tokens, payload)
+          .then(function (response) {
+
+            for (let result of response.results) {
+              sails.log("Successfully sent message request friend resposing:", result);
+            }
+            resolve();
+          })
+          .catch(function (error) {
+            sails.log("error in send notification request friend resposing", error);
+            resolve();
+          });
+      })
+
+    }
+    catch (e) {
+      sails.log("error in sent notification request resposing", request, e);
+    }
   }
 
 };

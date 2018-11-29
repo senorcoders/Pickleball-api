@@ -35,14 +35,7 @@ the account verification message.)`,
       description: 'The unencrypted password to use for the new account.'
     },
 
-    firstName: {
-      required: true,
-      type: 'string',
-      example: 'Frida Kahlo de Rivera',
-      description: 'The user\'s full name.',
-    },
-
-    lastName: {
+    fullName: {
       required: true,
       type: 'string',
       example: 'Frida Kahlo de Rivera',

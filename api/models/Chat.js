@@ -52,7 +52,7 @@ module.exports = {
 
       let payload = {
         'notification': {
-          'title': `New Message of ${user.firstName} ${user.lastName}`,
+          'title': `New Message of ${user.fullName}`,
           'body': `${chat.message}`,
           "sound": "default",
           "delivery_receipt_requested": "true"
