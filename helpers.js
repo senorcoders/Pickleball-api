@@ -15,17 +15,18 @@ exports.checkTokensID = function (token) {
 };
 
 exports.cleanTokensId = function (tokens) {
+    if (tokens === null || tokens === undefined) return [];
 
     tokens = tokens.filter(it => {
         return Object.prototype.toString.call(it) === "[object String]" && it !== "";
     });
 
     let tokenTemp = [];
-    for(let token of tokens){
-        let index = tokenTemp.findIndex(it=>{
+    for (let token of tokens) {
+        let index = tokenTemp.findIndex(it => {
             return it === token;
         });
-        if(index === -1){
+        if (index === -1) {
             tokenTemp.push(token);
         }
     }
