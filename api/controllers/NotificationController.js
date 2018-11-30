@@ -6,6 +6,7 @@ module.exports = {
     }
     payload.type = type;
     payload.user = user;
+    payload.view = false;
     await Notification.create(payload);
   }
 

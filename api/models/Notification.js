@@ -23,8 +23,7 @@ module.exports = {
 
     view: {
       type: "boolean",
-      required: true,
-      defaultsTo: false
+      required: true
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
