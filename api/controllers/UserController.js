@@ -2,7 +2,8 @@
 
 module.exports = {
     search: catchErrors(async (req, res) => {
-        let name = req.param("name"); console.log(name);
+        let name = req.param("name"),
+            userId = req.param("userId");
 
         var db = User.getDatastore().manager;
         var _user = db.collection(User.tableName);
@@ -14,6 +15,13 @@ module.exports = {
                     resolve(arr);
                 });
         });
+
+        //Cargamos los request
+        users = await Promise.all(users.map(async it => {
+            let requests = await RequestFriend.find({ from: userId, to: it._id.toString() });
+            it.requests = requests;
+            return it;
+        }));
 
         res.json(users);
     }),

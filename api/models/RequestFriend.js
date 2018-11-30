@@ -1,5 +1,6 @@
 const helper = require("./../../helpers")
 const notification = require("../../notifications");
+const managerNoti = require("../controllers/NotificationController");
 
 module.exports = {
 
@@ -64,6 +65,8 @@ module.exports = {
 
       payload = helper.normalizePayload(payload);
 
+      await managerNoti.saveNotification(payload, "requestFriend");
+      
       await new Promise(() => {
         notification.messaging().sendToDevice(tokens, payload)
           .then(function (response) {
