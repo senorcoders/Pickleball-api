@@ -21,6 +21,12 @@ module.exports = {
       required: true
     },
 
+    view: {
+      type: "boolean",
+      required: true,
+      defaultsTo: false
+    },
+
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
     //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
