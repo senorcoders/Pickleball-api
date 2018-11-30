@@ -102,10 +102,9 @@ module.exports = {
         return proceed();
       }
 
-      let user = await User.findOne({ id: request.from });
-      
-      let requestAll = await RequestFriend.findOne({ id: request.id }).populate("to");
+      let requestAll = await RequestFriend.findOne({ id: valuesToSet.id }).populate("to");
       delete requestAll.to.tokens;
+      let user = await User.findOne({ id: requestAll.from });
 
       let payload = {
         'notification': {
@@ -118,7 +117,7 @@ module.exports = {
       }
 
       payload = helper.normalizePayload(payload);
-      await managerNoti.saveNotification(payload, "requestFriend", request.from);
+      await managerNoti.saveNotification(payload, "requestFriend", requestAll.from);
 
       let tokens = helper.cleanTokensId(user.tokens);
       if (helper.checkTokensID(tokens) === false) {
@@ -142,7 +141,7 @@ module.exports = {
 
     }
     catch (e) {
-      sails.log("error in sent notification request resposing", request, e);
+      sails.log("error in sent notification request resposing", requestAll, e);
     }
 
     proceed()
