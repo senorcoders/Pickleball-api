@@ -13,7 +13,7 @@ module.exports = {
 
     body: {
       type: "string",
-      required: true
+      required: false
     },
 
     type: {

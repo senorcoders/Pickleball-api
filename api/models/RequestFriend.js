@@ -1,6 +1,6 @@
 const helper = require("./../../helpers")
 const notification = require("../../notifications");
-const managerNoti = require("../controllers/NotificationController");
+const managerNoti = require("../controllers/NotificationsController");
 
 module.exports = {
 
@@ -45,10 +45,6 @@ module.exports = {
   afterCreate: async (request, proceed) => {
     try {
       let user = await User.findOne({ id: request.to });
-      let tokens = helper.cleanTokensId(user.tokens);
-      if (helper.checkTokensID(tokens) === false) {
-        return proceed();
-      }
 
       let requestAll = await RequestFriend.findOne({ id: request.id }).populate("from");
       delete requestAll.from.tokens;
@@ -65,7 +61,14 @@ module.exports = {
 
       payload = helper.normalizePayload(payload);
 
+      //Guardamos la notificaton en la base de datos
       await managerNoti.saveNotification(payload, "requestFriend", request.to);
+
+      //Limpiamos y comprobamos los tokens
+      let tokens = helper.cleanTokensId(user.tokens);
+      if (helper.checkTokensID(tokens) === false) {
+        return proceed();
+      }
 
       await new Promise(() => {
         notification.messaging().sendToDevice(tokens, payload)
@@ -93,16 +96,13 @@ module.exports = {
 
   beforeUpdate: async (valuesToSet, proceed) => {
     try {
+
       if (valuesToSet.response !== true) {
         return proceed();
       }
 
       let user = await User.findOne({ id: request.from });
-      let tokens = helper.cleanTokensId(user.tokens);
-      if (helper.checkTokensID(tokens) === false) {
-        return proceed();
-      }
-
+      
       let requestAll = await RequestFriend.findOne({ id: request.id }).populate("to");
       delete requestAll.to.tokens;
 
@@ -117,8 +117,12 @@ module.exports = {
       }
 
       payload = helper.normalizePayload(payload);
-
       await managerNoti.saveNotification(payload, "requestFriend", request.from);
+
+      let tokens = helper.cleanTokensId(user.tokens);
+      if (helper.checkTokensID(tokens) === false) {
+        return proceed();
+      }
 
       await new Promise(() => {
         notification.messaging().sendToDevice(tokens, payload)
@@ -139,6 +143,8 @@ module.exports = {
     catch (e) {
       sails.log("error in sent notification request resposing", request, e);
     }
+
+    proceed()
   }
 
 };

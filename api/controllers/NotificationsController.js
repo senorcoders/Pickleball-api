@@ -4,10 +4,15 @@ module.exports = {
     if(typeObject(payload.data) === "string"){
         payload.data = JSON.parse(payload.data);
     }
+    payload.title = payload.notification.title;
+    payload.body = payload.notification.body;
+    delete payload.notification;
     payload.type = type;
     payload.user = user;
     payload.view = false;
-    await Notification.create(payload);
+    console.log(payload);
+    await Notifications.create(payload);
+    console.log("finish")
   }
 
 };
