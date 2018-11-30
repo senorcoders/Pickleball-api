@@ -8,7 +8,7 @@ module.exports = {
             return res.send("request duplicated");
         }
 
-        let request = await RequestFriend.create({ to, from }).fetch();
+        let request = await RequestFriend.create({ to, from, response: null }).fetch();
 
         res.json(request);
     })

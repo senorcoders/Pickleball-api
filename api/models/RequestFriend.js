@@ -11,7 +11,8 @@ module.exports = {
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
 
     response: {
-      type: "boolean",
+      type: "json",
+      columnType: "boolean",
       required: false
     },
 

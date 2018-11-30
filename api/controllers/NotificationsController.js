@@ -10,9 +10,7 @@ module.exports = {
     payload.type = type;
     payload.user = user;
     payload.view = false;
-    console.log(payload);
     await Notifications.create(payload);
-    console.log("finish")
   }
 
 };
