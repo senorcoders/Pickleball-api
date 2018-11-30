@@ -116,7 +116,7 @@ module.exports = {
       }
 
       payload = helper.normalizePayload(payload);
-      await managerNoti.saveNotification(payload, "requestFriend", requestAll.from);
+      await managerNoti.saveNotification(payload, "acceptFriend", requestAll.from);
 
       let tokens = helper.cleanTokensId(user.tokens);
       if (helper.checkTokensID(tokens) === false) {
