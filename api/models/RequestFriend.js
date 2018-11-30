@@ -46,13 +46,12 @@ module.exports = {
   afterCreate: async (request, proceed) => {
     try {
       let user = await User.findOne({ id: request.to });
-
       let requestAll = await RequestFriend.findOne({ id: request.id }).populate("from");
       delete requestAll.from.tokens;
 
       let payload = {
         'notification': {
-          'title': `Friend Request of ${user.fullName}`,
+          'title': `Friend Request of ${requestAll.from.fullName}`,
           'body': ``,
           "sound": "default",
           "delivery_receipt_requested": "true"
@@ -108,7 +107,7 @@ module.exports = {
 
       let payload = {
         'notification': {
-          'title': `Your request has been accepted by ${user.fullName}`,
+          'title': `Your request has been accepted by ${requestAll.to.fullName}`,
           'body': ``,
           "sound": "default",
           "delivery_receipt_requested": "true"
