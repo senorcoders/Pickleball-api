@@ -1,6 +1,7 @@
 
 module.exports = {
   saveNotification: async (payload, type, user)=>{
+    payload = JSON.parse( JSON.stringify(payload) );
     if(typeObject(payload.data) === "string"){
         payload.data = JSON.parse(payload.data);
     }

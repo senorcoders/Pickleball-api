@@ -53,12 +53,12 @@ module.exports = {
           "sound": "default",
           "delivery_receipt_requested": "true"
         },
-        data: JSON.stringify(chatAll)
+        data: { data: JSON.stringify(chatAll), is: "chat" }
       }
 
       payload = helper.normalizePayload(payload);
       await managerNoti.saveNotification(payload, "requestFriend", request.to);
-      
+
       let tokens = helper.cleanTokensId(user.tokens);
       if (helper.checkTokensID(tokens) === false) {
         return proceed();

@@ -52,12 +52,12 @@ module.exports = {
 
       let payload = {
         'notification': {
-          'title': `Friend Request of ${user.firstName} ${user.lastName}`,
+          'title': `Friend Request of ${user.fullName}`,
           'body': ``,
           "sound": "default",
           "delivery_receipt_requested": "true"
         },
-        data: JSON.stringify(requestAll)
+        data: { data: JSON.stringify(requestAll), is: "new-Request" }
       }
 
       payload = helper.normalizePayload(payload);
@@ -70,8 +70,8 @@ module.exports = {
       if (helper.checkTokensID(tokens) === false) {
         return proceed();
       }
-
-      await new Promise(() => {
+      console.log(payload);
+      await new Promise((resolve) => {
         notification.messaging().sendToDevice(tokens, payload)
           .then(function (response) {
 
@@ -113,7 +113,7 @@ module.exports = {
           "sound": "default",
           "delivery_receipt_requested": "true"
         },
-        data: JSON.stringify(requestAll)
+        data: { data: JSON.stringify(requestAll), is: "updated-request" }
       }
 
       payload = helper.normalizePayload(payload);
@@ -124,7 +124,7 @@ module.exports = {
         return proceed();
       }
 
-      await new Promise(() => {
+      await new Promise((resolve) => {
         notification.messaging().sendToDevice(tokens, payload)
           .then(function (response) {
 
