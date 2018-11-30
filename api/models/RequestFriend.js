@@ -65,8 +65,8 @@ module.exports = {
 
       payload = helper.normalizePayload(payload);
 
-      await managerNoti.saveNotification(payload, "requestFriend");
-      
+      await managerNoti.saveNotification(payload, "requestFriend", request.to);
+
       await new Promise(() => {
         notification.messaging().sendToDevice(tokens, payload)
           .then(function (response) {
@@ -117,6 +117,8 @@ module.exports = {
       }
 
       payload = helper.normalizePayload(payload);
+
+      await managerNoti.saveNotification(payload, "requestFriend", request.from);
 
       await new Promise(() => {
         notification.messaging().sendToDevice(tokens, payload)
