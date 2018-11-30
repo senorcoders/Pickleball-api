@@ -2,17 +2,20 @@
 
 module.exports = {
     search: catchErrors(async (req, res) => {
-        // let search = [];
-        // if (req.query.search.email !== undefined) {
-        //     search.push({ email: { "includes": req.query.search.email } });
-        // }
-        // if (req.query.search.name) {
-        //     search.push({ firstName: { "includes": req.query.search.name } });
-        //     search.push({ lastName: { "includes": req.query.search.name } });
-        // }
-        // let users = User.find({ or: search, where: { searchable: true } });
+        let name = req.param("name"); console.log(name);
 
-        res.json({});
+        var db = User.getDatastore().manager;
+        var _user = db.collection(User.tableName);
+        let users = await new Promise((resolve, reject) => {
+            _user.find({ fullName: { '$regex': '^.*' + name + '.*$', '$options': 'i' }, searchable: true })
+                .toArray(async (err, arr) => {
+                    if (err) { return reject(err); }
+
+                    resolve(arr);
+                });
+        });
+
+        res.json(users);
     }),
 
     logout: catchErrors(async (req, res) => {
