@@ -62,7 +62,8 @@ module.exports = {
       payload = helper.normalizePayload(payload);
 
       //Guardamos la notificaton en la base de datos
-      await managerNoti.saveNotification(payload, "requestFriend", request.to);
+      let notiProcess = await managerNoti.saveNotification(payload, "requestFriend", request.to);
+      sails.sockets.broadcast(request.to, notiProcess);
 
       //Limpiamos y comprobamos los tokens
       let tokens = helper.cleanTokensId(user.tokens);
@@ -116,7 +117,8 @@ module.exports = {
       }
 
       payload = helper.normalizePayload(payload);
-      await managerNoti.saveNotification(payload, "acceptFriend", requestAll.from);
+      let notiProcess = await managerNoti.saveNotification(payload, "acceptFriend", requestAll.from);
+      sails.sockets.broadcast(requestAll.from, notiProcess);
 
       let tokens = helper.cleanTokensId(user.tokens);
       if (helper.checkTokensID(tokens) === false) {

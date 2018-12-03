@@ -52,5 +52,15 @@ module.exports.routes = {
    * FOR REQUEST FRIEND
    * 
    */
-  "POST /requestfriend": "RequestFriendController.save"
+  "POST /requestfriend": "RequestFriendController.save",
+
+
+  /***********
+   * 
+   * FOR LIVE COMUNICATION
+   * 
+   */
+  "GET /sails-client": "LiveComunicationController.getSailsClient",
+
+  "PUT /suscribe-room": "LiveComunicationController.subscribeToRoom"
 };

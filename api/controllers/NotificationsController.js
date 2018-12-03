@@ -11,7 +11,8 @@ module.exports = {
     payload.type = type;
     payload.user = user;
     payload.view = false;
-    await Notifications.create(payload);
+    let noti = await Notifications.create(payload);
+    return noti;
   }
 
 };

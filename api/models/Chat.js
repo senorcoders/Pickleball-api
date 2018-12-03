@@ -19,6 +19,12 @@ module.exports = {
       required: true
     },
 
+    dateTime: {
+      type: 'string',
+      columnType: 'datetime',
+      required: false
+    },
+
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
     //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
@@ -48,7 +54,7 @@ module.exports = {
 
       let payload = {
         'notification': {
-          'title': `New Message of ${user.fullName}`,
+          'title': `New Message of ${chatAll.from.fullName}`,
           'body': `${chat.message}`,
           "sound": "default",
           "delivery_receipt_requested": "true"
@@ -57,7 +63,8 @@ module.exports = {
       }
 
       payload = helper.normalizePayload(payload);
-      await managerNoti.saveNotification(payload, "requestFriend", request.to);
+      await managerNoti.saveNotification(payload, "chat", chat.to);
+      sails.sockets.broadcast(chat.to, "new-chat", chatAll);
 
       let tokens = helper.cleanTokensId(user.tokens);
       if (helper.checkTokensID(tokens) === false) {
