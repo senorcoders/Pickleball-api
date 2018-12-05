@@ -1,4 +1,4 @@
-
+const moment = require("moment");
 
 module.exports = {
     search: catchErrors(async (req, res) => {
@@ -44,6 +44,42 @@ module.exports = {
         }
 
         res.ok();
+    }),
+
+    forgotPassword: catchErrors(async (req, res) => {
+        let email = req.param("email");
+        let user = await User.findOne({ email });
+        if (user === undefined) {
+            return res.json({ msg: "not found" });
+        }
+        let dateTime = req.param("dateTime");
+        let forgot = {
+            user: user.id,
+            dateTime,
+            changed: false
+        };
+        let fort = await ForgotPassword.create(forgot).fetch();
+        require("../../mailer").sendLinkforgotPassword(email, fort.id);
+
+        res.json({ msg: "success" });
+    }),
+
+    changePasswordWithModel: cathcErrors(async (req, res) => {
+        let code = req.param("code");
+        let forgot = await ForgotPassword.findOne({ id: code });
+        if (forgot === undefined) {
+            return res.json({ msg: "code invalid" });
+        }
+        let dateTime = moment(forgot.dateTime);
+        dateTime.add("minutes", 15);
+        now = moment();
+        if (dateTime.isBefore(now)) {
+            let password = req.param("password");
+            await User.update({ id: forgot.user }, { password: await sails.helpers.passwords.hashPassword(password) });
+            return res.json({ msg: "success" });
+        }
+
+        res.json({ msg: "expired" });
     })
 };
 

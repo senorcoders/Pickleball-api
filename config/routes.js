@@ -29,6 +29,8 @@ module.exports.routes = {
   'PUT /login-facebook': 'FacebookController.auth',
 
   "PUT /logout": "UserController.logout",
+  "PUT /forgot-password": "UserController.forgotPassword",
+  "PUT /forgot-password/validate": "UserController.changePasswordWithModel",
   
   /**********
    * 
