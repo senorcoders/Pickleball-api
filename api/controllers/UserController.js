@@ -64,21 +64,20 @@ module.exports = {
         res.json({ msg: "success" });
     }),
 
-    changePasswordWithModel: cathcErrors(async (req, res) => {
+    changePasswordWithModel: catchErrors(async (req, res) => {
         let code = req.param("code");
         let forgot = await ForgotPassword.findOne({ id: code });
         if (forgot === undefined) {
             return res.json({ msg: "code invalid" });
         }
         let dateTime = moment(forgot.dateTime);
-        dateTime.add("minutes", 15);
+        dateTime.add(15, "minutes");
         now = moment();
-        if (dateTime.isBefore(now)) {
+        if (now.isBefore(dateTime)) {
             let password = req.param("password");
             await User.update({ id: forgot.user }, { password: await sails.helpers.passwords.hashPassword(password) });
             return res.json({ msg: "success" });
         }
-
         res.json({ msg: "expired" });
     })
 };
