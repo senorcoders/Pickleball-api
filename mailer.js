@@ -18,7 +18,7 @@ exports.sendLinkforgotPassword = async function (email, code) {
                 subject: 'Recover password in Pickle Connect', // Subject line
                 text: '', // plain text body
                 html: `
-                    <h4>To change password click <a href="https://pickleconnect.senorcoders.com/change/${code}">here</a></h4>
+                    <h4>To change password click <a href="https://pickleconnect.senorcoders.com/recovery/${code}">here</a></h4>
                 `, // html body
             };
 
