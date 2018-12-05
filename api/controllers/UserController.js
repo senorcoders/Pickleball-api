@@ -66,7 +66,7 @@ module.exports = {
 
     changePasswordWithModel: catchErrors(async (req, res) => {
         let code = req.param("code");
-        let forgot = await ForgotPassword.findOne({ id: code });
+        let forgot = await ForgotPassword.findOne({ id: code, changed: false });
         if (forgot === undefined) {
             return res.json({ msg: "code invalid" });
         }
@@ -76,6 +76,7 @@ module.exports = {
         if (now.isBefore(dateTime)) {
             let password = req.param("password");
             await User.update({ id: forgot.user }, { password: await sails.helpers.passwords.hashPassword(password) });
+            await ForgotPassword.update({ id: forgot.id }, { changed: true });
             return res.json({ msg: "success" });
         }
         res.json({ msg: "expired" });
