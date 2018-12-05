@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer');
 const credential = require("./config/local").db.mongo;
 const transport = require("./config/local").transportMailer;
+const webapp = "https://pickleconnect.senorcoders.com";
 
 // create reusable transporter object using the default SMTP transport
 const transporter = nodemailer.createTransport(transport);
@@ -18,7 +19,7 @@ exports.sendLinkforgotPassword = async function (email, code) {
                 subject: 'Recover password in Pickle Connect', // Subject line
                 text: '', // plain text body
                 html: `
-                    <h4>To change password click <a href="https://pickleconnect.senorcoders.com/recovery/${code}">here</a></h4>
+                    <h4>To change password click <a href="${webapp}/recovery/${code}">here</a></h4>
                 `, // html body
             };
 
