@@ -64,5 +64,14 @@ module.exports.routes = {
    */
   "GET /sails-client": "LiveComunicationController.getSailsClient",
 
-  "PUT /suscribe-room": "LiveComunicationController.subscribeToRoom"
+  "PUT /suscribe-room": "LiveComunicationController.subscribeToRoom",
+
+  /***********
+   * 
+   * FOR TOURNAMENTS
+   * 
+   */
+
+   "GET /tournaments-search": "TournamentsController.search"
+   
 };
