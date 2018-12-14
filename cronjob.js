@@ -7,3 +7,10 @@ cron.schedule('*/1 * * * *', function () {
 
 });
 
+cron.schedule('0 */12 * * *', function () {
+  try {
+    require("./tournaments/notification_on_start");
+  } catch (e) { console.log(e); }
+
+});
+
