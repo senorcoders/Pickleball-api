@@ -46,7 +46,7 @@ exports.shareApp = async function (fullName, email) {
             let mailOptions = {
                 from: '"Pickle Connect" <messages@lockerroomapp.com>', // sender address
                 to: email, // list of receivers
-                subject: 'Inivation to join Pickle Connect', // Subject line
+                subject: 'Invitation to join Pickle Connect', // Subject line
                 text: '', // plain text body
                 html: `
                     <h2>${fullName} I invite you to join Pickle Connect</h2>
@@ -56,11 +56,11 @@ exports.shareApp = async function (fullName, email) {
                 `,
                 attachments: [{
                     filename: 'app-store.png',
-                    path: './emails_templates/images/app-store.png',
+                    path: './emails_templates/imgs/app-store.png',
                     cid: 'unique@appstore.ee' //same cid value as in the html img src
                 }, {
                     filename: 'google-play.png',
-                    path: './emails_templates/images/google-play.png',
+                    path: './emails_templates/imgs/google-play.png',
                     cid: 'unique@googleplay.ee' //same cid value as in the html img src
                 }]
             };
