@@ -54,7 +54,7 @@ module.exports = {
 
       let payload = {
         'notification': {
-          'title': `New Message of ${chatAll.from.fullName}`,
+          'title': `New Message from ${chatAll.from.fullName}`,
           'body': `${chat.message}`,
           "sound": "default",
           "delivery_receipt_requested": "true"
