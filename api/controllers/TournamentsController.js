@@ -6,7 +6,7 @@
  */
 
 module.exports = {
-  
+
     search: catchErrors(async (req, res) => {
         let name = req.param("name");
 
@@ -30,6 +30,44 @@ module.exports = {
         }));
 
         res.json(tournaments);
+    }),
+
+    getNearUbication: catchErrors(async (req, res) => {
+
+        let lng = Number(req.param("lng")), lat = Number(req.param("lat"));
+        var db = Tournaments.getDatastore().manager;
+        var collection = db.collection(Tournaments.tableName);
+
+        let results = await new Promise((resolve, reject)=>{
+            collection.find({
+                coordinates: {
+                    $nearSphere: {
+                        $geometry: {
+                            type: "Point",
+                            coordinates: [lng, lat]
+                        },
+                        $maxDistance: 30000,
+                        $minDistance: 1
+                    }
+                }
+            }).toArray(function(err, places) {
+                if(err){ return reject(err); }
+                resolve(places);
+            })
+        });
+
+        console.log(results);
+        res.json(results);
+    }),
+
+    addCoordinates: catchErrors(async (req, res) => {
+        let tours = await Tournaments.find({ limit: 100000 });
+        for (let t of tours) {
+            if (t.latLng !== null && t.latLng !== undefined)
+                await Tournaments.update({ id: t.id }, { coordinates: [t.latLng.lng, t.latLng.lat] })
+        }
+
+        res.ok();
     })
 
 };

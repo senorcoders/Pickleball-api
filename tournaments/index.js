@@ -68,8 +68,10 @@ async function getContent() {
                 // console.log(details);
                 tournment.address = details[0];
                 tournment.dates = details[1];
-                tournment.registrationStart = details[2].split("s:")[1].replace(" ", "");
-                tournment.endRegistration = details[3].split("e:")[1].replace(" ", "");
+                if (details[2].split("s:")[1])
+                    tournment.registrationStart = details[2].split("s:")[1].replace(" ", "");
+                if (details[3].split("e:")[1])
+                    tournment.endRegistration = details[3].split("e:")[1].replace(" ", "");
                 if (details[4])
                     tournment.finalDeadLine = details[4].split("e:")[1] ? details[4].split("e:")[1].replace(" ", "") : '';
                 if (details[5]) {
@@ -78,7 +80,7 @@ async function getContent() {
                     }
                 }
                 let latLng = await getLatLng(tournment.address);
-                if(latLng){
+                if (latLng) {
                     tournment.latLng = latLng;
                 }
                 tournments.push(tournment);
@@ -119,13 +121,9 @@ let connect = function () {
     });
 }
 
-let isSave = function (title, registrationStart, endRegistration) {
-    // console.log(registrationStart, "=>", moment(registrationStart.toLowerCase(), "MM/DD/YY hh:mm:a").format("hh:mm:a MM/DD/YY"));
-    // console.log(endRegistration, "=>", moment(endRegistration.toLowerCase(), "ddd MM/DD/YY").format("MM/DD/YY ddd"));
-    registrationStart = moment(registrationStart.toLowerCase(), "MM/DD/YY hh:mm:a").toISOString();
-    endRegistration = moment(endRegistration.toLowerCase(), "ddd MM/DD/YY").toISOString();
+let isSave = function (title) {
     return new Promise(function (resolve, reject) {
-        db.collection("tournaments").find({ title, registrationStart, endRegistration }, function (err, collection) {
+        db.collection("tournaments").find({ title }, function (err, collection) {
             if (err) { return reject(err); }
 
             collection.toArray(function (err, tournaments) {
@@ -138,8 +136,12 @@ let isSave = function (title, registrationStart, endRegistration) {
 }
 
 let save = function (tour) {
-    tour.registrationStart = moment(tour.registrationStart.toLowerCase(), "MM/DD/YY hh:mm:a").toISOString();
-    tour.endRegistration = moment(tour.endRegistration.toLowerCase(), "ddd MM/DD/YY").toISOString();
+    if (tour.registrationStart)
+        tour.registrationStart = moment(tour.registrationStart.toLowerCase(), "MM/DD/YY hh:mm:a").toISOString();
+    if (tour.endRegistration)
+        tour.endRegistration = moment(tour.endRegistration.toLowerCase(), "ddd MM/DD/YY").toISOString();
+    if (tour.latLng)
+        tour.coordinates = [tour.latLng.lng, tour.latLng.lat];
     return new Promise(function (resolve, reject) {
         db.collection("tournaments").insertOne(tour, function (err) {
             if (err) { return reject(err); }
@@ -151,7 +153,7 @@ let save = function (tour) {
 async function saveTorneos(tournaments) {
     await connect();
     for (let tour of tournaments) {
-        if (await isSave(tour.title, tour.registrationStart, tour.endRegistration) === false) {
+        if (await isSave(tour.title) === false) {
             await save(tour);
         }
     }

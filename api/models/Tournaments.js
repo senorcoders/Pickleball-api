@@ -60,6 +60,12 @@ module.exports = {
       required: false
     },
 
+    coordinates: {
+      type: "json",
+      columnType: "array",
+      required: false
+    },
+
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
     //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
