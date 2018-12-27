@@ -76,6 +76,14 @@ module.exports.routes = {
    "GET /tournaments-search": "TournamentsController.search",
    "GET /tournaments-ubication": "TournamentsController.getNearUbication",
    
-  //  "GET /change-coordinates": "TournamentsController.addCoordinates"
+  //  "GET /change-coordinates": "TournamentsController.addCoordinates",
+
+  /*************
+   * 
+   * FOR SAVE COURTS
+   * 
+   */
+
+   "POST /court-bulk": "CourtController.saveBulk"
    
 };
