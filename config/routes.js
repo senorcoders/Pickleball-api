@@ -85,6 +85,8 @@ module.exports.routes = {
    */
 
    "POST /court-bulk": "CourtController.saveBulk",
+   "GET /court-position": "CourtController.getCourtXPosition",
+   
 
    /********************
     * 

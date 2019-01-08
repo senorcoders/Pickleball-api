@@ -34,6 +34,10 @@ module.exports.bootstrap = async function () {
     var collection = db.collection(Tournaments.tableName);
     collection.createIndex({ coordinates: "2dsphere" });
 
+    var _db = Court.getDatastore().manager;
+    var collection = _db.collection(Court.tableName);
+    collection.createIndex({ coordinates: "2dsphere" });
+
     // If this is _actually_ a production environment (real or simulated), or we have
     // `migrate: safe` enabled, then prevent accidentally removing all data!
     if (process.env.NODE_ENV === 'production' || sails.config.models.migrate === 'safe') {
@@ -70,6 +74,10 @@ module.exports.bootstrap = async function () {
 
   var db = Tournaments.getDatastore().manager;
   var collection = db.collection(Tournaments.tableName);
+  collection.createIndex({ coordinates: "2dsphere" });
+
+  var _db = Court.getDatastore().manager;
+  var collection = _db.collection(Court.tableName);
   collection.createIndex({ coordinates: "2dsphere" });
 
   console.log("execute");
