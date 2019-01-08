@@ -84,6 +84,15 @@ module.exports.routes = {
    * 
    */
 
-   "POST /court-bulk": "CourtController.saveBulk"
+   "POST /court-bulk": "CourtController.saveBulk",
+
+   /********************
+    * 
+    * FOR LOCATIONS USER
+    * 
+    * 
+    */
+
+    "POST /user-location-background": "UserLocationController.addFromBackground",
    
 };
