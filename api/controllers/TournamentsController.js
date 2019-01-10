@@ -36,37 +36,7 @@ module.exports = {
 
         let lng = Number(req.param("lng")), lat = Number(req.param("lat")),
             user = req.param("user");
-        var db = Tournaments.getDatastore().manager;
-        var collection = db.collection(Tournaments.tableName);
-
-        let results = await new Promise((resolve, reject) => {
-            collection.find({
-                coordinates: {
-                    $nearSphere: {
-                        $geometry: {
-                            type: "Point",
-                            coordinates: [lng, lat]
-                        },
-                        $maxDistance: 30000,
-                        $minDistance: 0
-                    }
-                }
-            }).toArray(function (err, places) {
-                if (err) { return reject(err); }
-                places = places.map(it => {
-                    it.id = it._id.toString();
-                    return it;
-                })
-                resolve(places);
-            })
-        });
-        results = await Promise.all(results.map(async it => {
-            let saved = await SavedTournaments.findOne({ user, tournament: it.id });
-            it.isSave = saved !== undefined;
-            if (it.isSave === true)
-                it.savedId = saved.id;
-            return it;
-        }));
+        let results = await getXCoordinates(ln, lat, user, 30000);
         console.log(results);
         res.json(results);
     }),
@@ -79,7 +49,45 @@ module.exports = {
         }
 
         res.ok();
-    })
+    }),
+
+    getXCoordinates
 
 };
+
+async function getXCoordinates(lng, lat, user, max) {
+    var db = Tournaments.getDatastore().manager;
+    var collection = db.collection(Tournaments.tableName);
+
+    let results = await new Promise((resolve, reject) => {
+        collection.find({
+            coordinates: {
+                $nearSphere: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [lng, lat]
+                    },
+                    $maxDistance: max,
+                    $minDistance: 0
+                }
+            }
+        }).toArray(function (err, places) {
+            if (err) { return reject(err); }
+            places = places.map(it => {
+                it.id = it._id.toString();
+                return it;
+            })
+            resolve(places);
+        })
+    });
+    results = await Promise.all(results.map(async it => {
+        let saved = await SavedTournaments.findOne({ user, tournament: it.id });
+        it.isSave = saved !== undefined;
+        if (it.isSave === true)
+            it.savedId = saved.id;
+        return it;
+    }));
+
+    return results;
+}
 

@@ -1,9 +1,5 @@
-/**
- * CourtController
- *
- * @description :: Server-side actions for handling incoming requests.
- * @help        :: See https://sailsjs.com/docs/concepts/actions
- */
+
+
 const mongoose = require("mongoose");
 module.exports = {
 
@@ -35,30 +31,37 @@ module.exports = {
     }),
 
     getCourtXPosition: catchErrors(async (req, res) => {
-        let lng = Number(req.param("lng")), lat = Number(req.param("lat"));
-        var db = Court.getDatastore().manager;
-        var collection = db.collection(Court.tableName);
-
-        let results = await new Promise((resolve, reject) => {
-            collection.find({
-                coordinates: {
-                    $nearSphere: {
-                        $geometry: {
-                            type: "Point",
-                            coordinates: [lng, lat]
-                        },
-                        $maxDistance: 300,
-                        $minDistance: 0
-                    }
-                }
-            }).toArray(function (err, places) {
-                if (err) { return reject(err); }
-                resolve(places);
-            })
-        });
-
+        let lng = Number(req.param("lng")), lat = Number(req.param("lat")),
+            user = req.param("user");
+        let results = await getXCoordinates(lng, lat, user);
         console.log(results);
         res.json(results);
-    })
+    }),
+
+    getXCoordinates
 };
 
+
+function getXCoordinates(lng, lat, user) {
+    var db = Court.getDatastore().manager;
+    var collection = db.collection(Court.tableName);
+
+    return new Promise((resolve, reject) => {
+        collection.find({
+            coordinates: {
+                $nearSphere: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [lng, lat]
+                    },
+                    $maxDistance: 300,
+                    $minDistance: 0
+                },
+            },
+            user: new mongoose.Types.ObjectId(user)
+        }).toArray(function (err, places) {
+            if (err) { return reject(err); }
+            resolve(places);
+        })
+    });
+}
