@@ -34,11 +34,12 @@ module.exports = {
 
     getNearUbication: catchErrors(async (req, res) => {
 
-        let lng = Number(req.param("lng")), lat = Number(req.param("lat"));
+        let lng = Number(req.param("lng")), lat = Number(req.param("lat")),
+            user = req.param("user");
         var db = Tournaments.getDatastore().manager;
         var collection = db.collection(Tournaments.tableName);
 
-        let results = await new Promise((resolve, reject)=>{
+        let results = await new Promise((resolve, reject) => {
             collection.find({
                 coordinates: {
                     $nearSphere: {
@@ -47,15 +48,25 @@ module.exports = {
                             coordinates: [lng, lat]
                         },
                         $maxDistance: 30000,
-                        $minDistance: 1
+                        $minDistance: 0
                     }
                 }
-            }).toArray(function(err, places) {
-                if(err){ return reject(err); }
+            }).toArray(function (err, places) {
+                if (err) { return reject(err); }
+                places = places.map(it => {
+                    it.id = it._id.toString();
+                    return it;
+                })
                 resolve(places);
             })
         });
-
+        results = await Promise.all(results.map(async it => {
+            let saved = await SavedTournaments.find({ user, tournament: tour.id });
+            it.isSave = saved !== undefined;
+            if(it.isSave === true)
+                it.savedId = saved.id;
+            return it;
+        }));
         console.log(results);
         res.json(results);
     }),
