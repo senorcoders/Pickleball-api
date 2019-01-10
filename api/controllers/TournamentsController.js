@@ -61,7 +61,7 @@ module.exports = {
             })
         });
         results = await Promise.all(results.map(async it => {
-            let saved = await SavedTournaments.find({ user, tournament: it.id });
+            let saved = await SavedTournaments.findOne({ user, tournament: it.id });
             it.isSave = saved !== undefined;
             if (it.isSave === true)
                 it.savedId = saved.id;
