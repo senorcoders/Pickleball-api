@@ -96,5 +96,6 @@ module.exports.routes = {
     */
 
     "POST /user-location-background": "UserLocationController.addFromBackground",
+    "POST /user-locaion-background-fail": "UserLocationController.failFromBackgroud"
    
 };
