@@ -36,7 +36,7 @@ module.exports = {
 
         let lng = Number(req.param("lng")), lat = Number(req.param("lat")),
             user = req.param("user");
-        let results = await getXCoordinates(ln, lat, user, 30000);
+        let results = await getXCoordinates(lng, lat, user, 30000);
         console.log(results);
         res.json(results);
     }),
