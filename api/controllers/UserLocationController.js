@@ -3,8 +3,10 @@ const notification = require("../../notifications");
 const managerNoti = require("../controllers/NotificationsController");
 const getCourtsXCoordinates = require("./CourtController").getXCoordinates,
     getTournaments = require("./TournamentsController").getXCoordinates,
-    moment = require("moment");
-console.log(moment().toISOString());
+    moment = require("moment"),
+    keyMap = require("../../config/local").google.maps.key,
+    mongoose = require("mongoose"), axios = require("axios");
+
 module.exports = {
 
     addFromBackground: catchErrors(async (req, res) => {
@@ -18,6 +20,16 @@ module.exports = {
             //obtenemos los courts y tournaments
             //que el usuario  guardo y estan cerca de su posicion
             for (let coor of req.body) {
+                //Obtenemos los courts cercanos al usuario por medio de google maps
+                //tambien comprobamos que no esten guardados esos courts
+                let courts_map = await getCourtsXMap(coor.latitude, coor.longitude, user)
+                for (let c_ of courts_map) {
+                    let coordinates = c_.coordinates;
+                    let userId = new mongoose.Types.ObjectId(user);
+                    let saveds = await getCourtsSearchNative({ coordinates, user: userId });
+                    if (saveds.length === 0)
+                        await Court.create(c_);
+                }
                 let courts_ = await getCourtsXCoordinates(coor.longitude, coor.latitude, user);
                 courts = courts.concat(courts_);
                 let tour = await getTournaments(coor.longitude, coor.latitude, user, 300);
@@ -28,15 +40,19 @@ module.exports = {
                 await userNearCourtSave(userObject, court, tokensAndIds);
             }
             //Tenemos que filtrar por los torneos que estan cerca de iniciar
-            //Cuando el torneo no la ha guardado el usuario,  se guarda y entonces se ejecuta automaticamente
+            //Cuando el torneo no la ha guardado el usuario, se guarda y entonces se ejecuta automaticamente
             //la funcion afterCreate en el modelo SavedTournaments, la cual
             //envia la notificacion
             tournaments = filterNearStart(tournaments)
             for (let tour of tournaments) {
                 if (tour.isSave === true)
                     await userNearTournamentsSave(userObject, tour, tokensAndIds);
-                else
-                    await SavedTournaments.create({ user: userObject.id, tournament: tour.id });
+                else {
+                    let saveds = await SavedTournaments.find({ user: userObject.id, tournament: tour.id })
+                    if (saveds.length === 0)
+                        await SavedTournaments.create({ user: userObject.id, tournament: tour.id });
+                }
+
             }
         }
 
@@ -49,6 +65,55 @@ module.exports = {
     })
 };
 
+//#region para obtener courts por medio de google maps
+async function getCourtsXMap(lat, lng, user) {
+
+    let fields = ['photos', 'formatted_address', 'name', 'rating', 'opening_hours', 'geometry', 'price_level'];
+    let uri = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=300&fields=${fields.join(",")}&name=pickleball courts&key=${keyMap}`;
+    let results = [];
+    try {
+        let response = await axios.get(uri);
+        results = response.data.results;
+        results = results.map(result => {
+            return {
+                coordinates: [result.geometry.location.lng, result.geometry.location.lat],
+                name: result.name,
+                location: result.vicinity,
+                photos: result.photos ? result.photos.map(i => { return getPhotoURl(i); }) : [],
+                rating: result.rating,
+                user
+            };
+        });
+    }
+    catch (e) {
+        console.error(e);
+    }
+    console.log(results)
+    return results;
+}
+
+function getPhotoURl(photo){
+    return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=${photo.photo_reference}&key=${keyMap}`;
+}
+
+async function getCourtsSearchNative(criteria) {
+    var db = Court.getDatastore().manager;
+    var _court = db.collection(Court.tableName);
+    let result = await new Promise((resolve, reject) => {
+        _court.find({ criteria })
+            .toArray(async (err, arr) => {
+                if (err) { return reject(err); }
+
+                resolve(arr);
+            });
+    });
+
+    return result;
+}
+
+//#endregion
+
+//#region para obtener, guardar courts y tournaments 
 async function getTokensAndIdsFriends(user) {
     let friends = await RequestFriend.find({
         or: [
@@ -112,6 +177,7 @@ async function userNearTournamentsSave(user, tour, tokensAndIds) {
     };
     await sendNotification(payload, tokensAndIds.tokens, tokensAndIds.ids);
 }
+//#endregion
 
 async function sendNotification(payload, tokens, ids) {
     try {
