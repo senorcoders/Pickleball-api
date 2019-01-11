@@ -6,7 +6,7 @@ const getCourtsXCoordinates = require("./CourtController").getXCoordinates,
     moment = require("moment"),
     keyMap = require("../../config/local").google.maps.key,
     mongoose = require("mongoose"), axios = require("axios");
-
+console.log(moment().toISOString());
 module.exports = {
 
     addFromBackground: catchErrors(async (req, res) => {
