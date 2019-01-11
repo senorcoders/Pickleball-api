@@ -13,7 +13,9 @@
  * https://sailsjs.com/config/datastores
  */
 const credentials = require("./local").db.mongo;
-
+let production = `mongodb://${credentials.username}:${credentials.password}@${credentials.host}:${credentials.port}/${credentials.dbName}`,
+debug = `mongodb://${credentials.debug.username}:${credentials.debug.password}@${credentials.host}:${credentials.port}/${credentials.debug.dbName}`;
+// console.log("process", process.env.DBG, process.env.DBG ? "debug": "production");
 module.exports.datastores = {
 
 
@@ -50,7 +52,7 @@ module.exports.datastores = {
     *                                                                          *
     ***************************************************************************/
    adapter: require('sails-mongo'),
-    url: `mongodb://${credentials.username}:${credentials.password}@${credentials.host}:${credentials.port}/${credentials.dbName}`,
+    url: process.env.DBG ? debug: production,
 
   },
 

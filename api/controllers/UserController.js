@@ -18,7 +18,12 @@ module.exports = {
 
         //Cargamos los request
         users = await Promise.all(users.map(async it => {
-            let requests = await RequestFriend.find({ from: userId, to: it._id.toString() });
+            let requests = await RequestFriend.find({
+                or: [
+                    { from: userId, to: it._id.toString() },
+                    { to: userId, from: it._id.toString() }
+                ]
+            });
             it.requests = requests;
             return it;
         }));

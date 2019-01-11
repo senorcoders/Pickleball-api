@@ -37,6 +37,7 @@
   },
   "scripts": {
     "start": "NODE_ENV=production node app.js",
+    "dbg": "set DBG=true && node app",
     "start:dev": "forever start --uid 'pickleconnect' -a --watchDirectory ./api -w app.js --minUptime 1000 --spinSleepTime 1000 app.js",
     "stop:dev": "forever stop 'pickleconnect' ",
     "start:cronjob": "forever start --uid 'cronjob' -a --watchDirectoy ./tournaments --minUptime 1000 --spinSleepTime 1000 cronjob.js",
