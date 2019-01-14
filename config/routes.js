@@ -80,6 +80,13 @@ module.exports.routes = {
 
   /*************
    * 
+   * CHAT
+   * 
+   */
+  "GET /list-chat/:user": "ChatController.getChatRecents",
+
+  /*************
+   * 
    * FOR SAVE COURTS
    * 
    */
