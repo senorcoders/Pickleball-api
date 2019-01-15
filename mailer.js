@@ -39,6 +39,7 @@ exports.sendLinkforgotPassword = async function (email, code) {
 }
 
 exports.shareApp = async function (fullName, email) {
+    console.log(email);
     try {
         nodemailer.createTestAccount((err, account) => {
 
@@ -49,7 +50,7 @@ exports.shareApp = async function (fullName, email) {
                 subject: 'Invitation to join Pickle Connect', // Subject line
                 text: '', // plain text body
                 html: `
-                    <h2>${fullName} I invite you to join Pickle Connect</h2>
+                    <h2>${fullName} would like to share the PickleConnect app with you.</h2>
                     <a href="https://play.google.com/store/apps/details?id=com.senorcoders.lockeroom"><img class=“img-fluid” src="cid:unique@googleplay.ee" width="100px" height="auto" alt=“google-play”></a>
                     <a href="https://itunes.apple.com/us/app/locker-room-team-communication/id1407037986?mt=8"><img class=“img-fluid” src="cid:unique@appstore.ee" width="100px" height="auto" alt=“app-store”></a> 
             

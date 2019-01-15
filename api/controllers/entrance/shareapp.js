@@ -39,7 +39,9 @@ module.exports = {
     fn: async function (inputs) {
         inputs.email = inputs.email.toLowerCase();
         let user = await User.findOne({ id: inputs.idUser });
-        require("../../../mailer").shareApp(user.fullName, inputs.email);
+        if (user !== undefined) {
+            require("../../../mailer").shareApp(user.fullName, inputs.email);
+        }
         this.res.json({ msg: "success" });
     }
 
