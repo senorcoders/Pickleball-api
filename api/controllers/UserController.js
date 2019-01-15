@@ -25,6 +25,7 @@ module.exports = {
                 ]
             });
             it.requests = requests;
+            it.courts = await Court.find({ user: it._id.toString() });
             return it;
         }));
 
