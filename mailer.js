@@ -51,8 +51,8 @@ exports.shareApp = async function (fullName, email) {
                 text: '', // plain text body
                 html: `
                     <h2>${fullName} would like to share the PickleConnect app with you.</h2>
-                    <a href="https://play.google.com/store/apps"><img class=“img-fluid” src="cid:unique@googleplay.ee" width="100px" height="auto" alt=“google-play”></a>
-                    <a href="https://itunes.apple.com/us"><img class=“img-fluid” src="cid:unique@appstore.ee" width="100px" height="auto" alt=“app-store”></a> 
+                    <a href="http://pickleconnect.com"><img class=“img-fluid” src="cid:unique@googleplay.ee" width="100px" height="auto" alt=“google-play”></a>
+                    <a href="http://pickleconnect.com"><img class=“img-fluid” src="cid:unique@appstore.ee" width="100px" height="auto" alt=“app-store”></a> 
             
                 `,
                 attachments: [{
