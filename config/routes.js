@@ -74,6 +74,7 @@ module.exports.routes = {
    */
 
    "GET /tournaments-search": "TournamentsController.search",
+   "GET /tournaments-search-date": "TournamentsController.searchForNextMonth",
    "GET /tournaments-ubication": "TournamentsController.getNearUbication",
    
   //  "GET /change-coordinates": "TournamentsController.addCoordinates",

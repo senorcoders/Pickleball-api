@@ -137,9 +137,9 @@ let isSave = function (title) {
 
 let save = function (tour) {
     if (tour.registrationStart)
-        tour.registrationStart = moment(tour.registrationStart.toLowerCase(), "MM/DD/YY hh:mm:a").toISOString();
+        tour.registrationStart = moment(tour.registrationStart.toLowerCase(), "MM/DD/YY hh:mm:a").toDate().getTime();
     if (tour.endRegistration)
-        tour.endRegistration = moment(tour.endRegistration.toLowerCase(), "ddd MM/DD/YY").toISOString();
+        tour.endRegistration = moment(tour.endRegistration.toLowerCase(), "ddd MM/DD/YY").toDate().getTime();
     if (tour.latLng)
         tour.coordinates = [tour.latLng.lng, tour.latLng.lat];
     return new Promise(function (resolve, reject) {

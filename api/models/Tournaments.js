@@ -34,14 +34,12 @@ module.exports = {
     },
 
     registrationStart: {
-      type: "string",
-      columnType: "datetime",
+      type: 'number', 
       required: false
     },
 
     endRegistration: {
-      type: "string",
-      columnType: "datetime",
+      type: 'number',
       required: false
     },
 
