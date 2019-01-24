@@ -18,7 +18,7 @@ module.exports.routes = {
   //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
   //  ╩ ╩╩  ╩  ╚═╝╝╚╝═╩╝╩  ╚═╝╩╝╚╝ ╩ ╚═╝
-  
+
   /*****
    * LOGIN Y LOGOUT
    * 
@@ -32,7 +32,7 @@ module.exports.routes = {
   "PUT /logout": "UserController.logout",
   "PUT /forgot-password": "UserController.forgotPassword",
   "PUT /forgot-password/validate": "UserController.changePasswordWithModel",
-  
+
   /**********
    * 
    * FOR MANAGE IMAGE OF USER
@@ -41,7 +41,7 @@ module.exports.routes = {
   'PATCH /image/user/:userId': "ImageController.saveImageUser",
 
   "GET /images/:type/:nameFile/:id": "ImageController.getImage",
-  
+
   /***************
    * 
    * FOR MANAGE MODEL USER
@@ -73,10 +73,10 @@ module.exports.routes = {
    * 
    */
 
-   "GET /tournaments-search": "TournamentsController.search",
-   "GET /tournaments-search-date": "TournamentsController.searchForNextMonth",
-   "GET /tournaments-ubication": "TournamentsController.getNearUbication",
-   
+  "GET /tournaments-search": "TournamentsController.search",
+  "GET /tournaments-search-date": "TournamentsController.searchForNextMonth",
+  "GET /tournaments-ubication": "TournamentsController.getNearUbication",
+
   //  "GET /change-coordinates": "TournamentsController.addCoordinates",
 
   /*************
@@ -92,25 +92,26 @@ module.exports.routes = {
    * 
    */
 
-   "POST /court-bulk": "CourtController.saveBulk",
-   "GET /court-position": "CourtController.getCourtXPosition",
-   
+  "POST /court-bulk": "CourtController.saveBulk",
+  "GET /court-position": "CourtController.getCourtXPosition",
 
-   /********************
-    * 
-    * FOR LOCATIONS USER
-    * 
-    * 
-    */
 
-    "POST /user-location-background": "UserLocationController.addFromBackground",
-    "POST /user-locaion-background-fail": "UserLocationController.failFromBackgroud",
+  /********************
+   * 
+   * FOR LOCATIONS USER
+   * 
+   * 
+   */
 
-    /************
-     * 
-     * FOR EVENT
-     * 
-     */
-    "POST /event-courts": "EventController.saveWithCourts"
-   
+  "POST /user-location-background": "UserLocationController.addFromBackground",
+  "POST /user-locaion-background-fail": "UserLocationController.failFromBackgroud",
+
+  /************
+   * 
+   * FOR EVENT
+   * 
+   */
+  "POST /event-courts": "EventController.saveWithCourts",
+  "PATCH /share-event": "EventController.shareEvent"
+
 };
