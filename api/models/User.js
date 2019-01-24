@@ -98,15 +98,19 @@ module.exports = {
       type: "json",
       columnType: "array",
       required: false
-    }
+    },
 
     //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
     // n/a
+    eventsPlayer: {
+      collection: "event",
+      via: "players",
+    }
 
   },
-  
+
   customToJSON: function () {
     var obj = this;
     delete obj.password;
