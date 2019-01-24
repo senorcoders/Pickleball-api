@@ -104,6 +104,13 @@ module.exports.routes = {
     */
 
     "POST /user-location-background": "UserLocationController.addFromBackground",
-    "POST /user-locaion-background-fail": "UserLocationController.failFromBackgroud"
+    "POST /user-locaion-background-fail": "UserLocationController.failFromBackgroud",
+
+    /************
+     * 
+     * FOR EVENT
+     * 
+     */
+    "POST /event-courts": "EventController.saveWithCourts"
    
 };
