@@ -73,13 +73,14 @@ module.exports = {
     },
 
     locationCoords: {
-      type: "string",
+      type: "json",
+      columnType: "array",
       required: false
     },
 
     images: {
       type: "json",
-      columnType: "string",
+      columnType: "array",
       required: false
     },
 

@@ -14,7 +14,7 @@ module.exports = {
             await CourtsEvent.create(c);
         }
 
-        res.json({ msg: "success" });
+        res.json(e);
     }),
 
     shareEvent: catchErrors(async (req, res) => {

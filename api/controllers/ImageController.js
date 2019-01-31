@@ -135,12 +135,12 @@ module.exports = {
                     return res.send("event not found");
                 }
 
-                let _namefiles;
+                let _namefiles = [];
                 req.file("images").upload({
-                    dirname: directorys.events,
+                    dirname: path.join(directorys.events+ "/", req.param("eventId")),
                     maxBytes: 5000000,
                     saveAs: function (stream, cb) {
-                        let _namefile = req.param("userId") + "." + stream.filename.split(".").pop();
+                        let _namefile = new Date().getTime() + "." + stream.filename.split(".").pop();
                         console.log(_namefile);
                         _namefiles.push(_namefile);
                         cb(null, _namefile);

@@ -112,6 +112,7 @@ module.exports.routes = {
    * 
    */
   "POST /event-courts": "EventController.saveWithCourts",
-  "PATCH /share-event": "EventController.shareEvent"
+  "PATCH /share-event": "EventController.shareEvent",
+  "POST /event-images/:eventId": "ImageController.saveImageEvents"
 
 };
