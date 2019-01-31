@@ -67,6 +67,22 @@ module.exports = {
       required: true
     },
 
+    locationText: {
+      type: "string",
+      required: false
+    },
+
+    locationCoords: {
+      type: "string",
+      required: false
+    },
+
+    images: {
+      type: "json",
+      columnType: "string",
+      required: false
+    },
+
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
@@ -76,11 +92,11 @@ module.exports = {
     //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
-    user:{
+    user: {
       model: "user",
       required: true
     },
-    
+
     players: {
       collection: "user",
       via: "eventsPlayer",

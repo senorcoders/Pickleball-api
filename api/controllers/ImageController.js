@@ -57,7 +57,8 @@ const getMimeType = function (dirname) {
 
 //check if exits the directory
 const directorys = {
-    users: path.join(IMAGES, "users")
+    users: path.join(IMAGES, "users"),
+    events: path.join(IMAGES, "events"),
 };
 for (let name of Object.keys(directorys)) {
     if (fs.existsSync(directorys[name]) === false) {
@@ -107,6 +108,61 @@ module.exports = {
                     }
 
                     let upda = await User.update({ id: user.id }, { image }).fetch();
+
+                    resolve(upda);
+                    if (res) {
+                        res.json(upda);
+                    }
+                })
+            }
+            catch (e) {
+                console.error(e);
+                reject(e);
+                if (res !== false) {
+                    res.serverError(e);
+                }
+            }
+        });
+    }),
+
+    saveImageEvents: catchErrors(async (req, res) => {
+        await new Promise(async (resolve, reject) => {
+            try {
+
+                let event = await Event.findOne({ id: req.param("eventId") });
+                if (event === undefined) {
+                    res.status(500);
+                    return res.send("event not found");
+                }
+
+                let _namefiles;
+                req.file("images").upload({
+                    dirname: directorys.events,
+                    maxBytes: 5000000,
+                    saveAs: function (stream, cb) {
+                        let _namefile = req.param("userId") + "." + stream.filename.split(".").pop();
+                        console.log(_namefile);
+                        _namefiles.push(_namefile);
+                        cb(null, _namefile);
+                    }
+                }, async function (err, uploadedFiles) {
+                    if (err) {
+                        reject(err);
+                        if (res) {
+                            return reject(err);
+                        }
+                    }
+
+                    let images = [];
+                    for (let i = 0; i < uploadedFiles.length; i++) {
+                        let file = uploadedFiles[i];
+                        console.log(file);
+                        if (file.type.includes("image/") && file["status"] === "finished") {
+                            images.push("/images/events/" + _namefiles[i] + "/" + req.param("eventId"));
+                        }
+                    }
+
+                    let upda = await Event.update({ id: event.id }, { images }).fetch();
 
                     resolve(upda);
                     if (res) {
