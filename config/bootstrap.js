@@ -31,11 +31,15 @@ module.exports.bootstrap = async function () {
   if (sails.config.models.migrate !== 'drop' && sails.config.environment !== 'test') {
 
     var db = Tournaments.getDatastore().manager;
-    var collection = db.collection(Tournaments.tableName);
+    collection = db.collection(Tournaments.tableName);
     collection.createIndex({ coordinates: "2dsphere" });
 
+    var db1 = Event.getDatastore().manager;
+    collection = db1.collection(Event.tableName);
+    collection.createIndex({ locationCoords: "2dsphere" });
+
     var _db = Court.getDatastore().manager;
-    var collection = _db.collection(Court.tableName);
+    collection = _db.collection(Court.tableName);
     collection.createIndex({ coordinates: "2dsphere" });
 
     // If this is _actually_ a production environment (real or simulated), or we have
@@ -73,11 +77,15 @@ module.exports.bootstrap = async function () {
   ]);
 
   var db = Tournaments.getDatastore().manager;
-  var collection = db.collection(Tournaments.tableName);
+  collection = db.collection(Tournaments.tableName);
   collection.createIndex({ coordinates: "2dsphere" });
 
+  var db1 = Event.getDatastore().manager;
+  collection = db1.collection(Event.tableName);
+  collection.createIndex({ locationCoords: "2dsphere" });
+
   var _db = Court.getDatastore().manager;
-  var collection = _db.collection(Court.tableName);
+  collection = _db.collection(Court.tableName);
   collection.createIndex({ coordinates: "2dsphere" });
 
   console.log("execute");
