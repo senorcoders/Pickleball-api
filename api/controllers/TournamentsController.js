@@ -37,7 +37,7 @@ module.exports = {
         let name = req.param("name"), date = req.param("date");
         let month = moment(date);
         console.log("01/", month.format("MM/YYYY"));
-        let nextMoment =  moment("01/"+month.format("MM/YYYY"), "DD/MM/YYYY");
+        let nextMoment = moment("01/" + month.format("MM/YYYY"), "DD/MM/YYYY");
         nextMoment.add(1, "month");
         console.log(nextMoment.format("DD/MM/YYYY"));
 
@@ -68,7 +68,17 @@ module.exports = {
         let lng = Number(req.param("lng")), lat = Number(req.param("lat")),
             user = req.param("user");
         let results = await getXCoordinates(lng, lat, user, 30000);
-        console.log(results);
+        let filterDate = req.param("filterDate");
+        if (filterDate === "true") {
+            console.log(`
+                FILTER DATE FOR TOURNAMENTS
+            `);
+            let dateStart = Number(req.param("startDate")),
+                dateEnd = Number(req.param("endDate"));
+            results = results.filter(it => {
+                return it.registrationStart >= dateStart && it.registrationStart <= dateEnd;
+            });
+        }
         res.json(results);
     }),
 
