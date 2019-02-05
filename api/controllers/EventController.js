@@ -119,13 +119,13 @@ async function getXCoordinates(lng, lat, user, max) {
             resolve(events);
         })
     });
-    // results = await Promise.all(results.map(async it => {
-    //     let saved = await SavedTournaments.findOne({ user, tournament: it.id });
-    //     it.isSave = saved !== undefined;
-    //     if (it.isSave === true)
-    //         it.savedId = saved.id;
-    //     return it;
-    // }));
+    results = await Promise.all(results.map(async it => {
+        let saved = await EventUser.findOne({ user, event: it.id });
+        it.isSave = saved !== undefined;
+        if (it.isSave === true)
+            it.savedId = saved.id;
+        return it;
+    }));
 
     return results;
 }
