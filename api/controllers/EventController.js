@@ -109,6 +109,7 @@ async function getXCoordinates(lng, lat, user, max) {
                     $minDistance: 0
                 }
             },
+            type: "clinics"
             // user: new types.ObjectId(user)
         }).toArray(function (err, events) {
             if (err) { return reject(err); }

@@ -121,6 +121,42 @@ async function getXCoordinates(lng, lat, user, max) {
             resolve(places);
         })
     });
+    var db1 = Event.getDatastore().manager;
+    var collection1 = db1.collection(Event.tableName);
+
+    let results1 = await new Promise((resolve, reject) => {
+        collection1.find({
+            locationCoords: {
+                $nearSphere: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [lng, lat]
+                    },
+                    $maxDistance: max,
+                    $minDistance: 0
+                }
+            },
+            type: "tournament"
+        }).toArray(function (err, places) {
+            if (err) { return reject(err); }
+            places = places.map(it => {
+                it.id = it._id.toString();
+                return it;
+            })
+            resolve(places);
+        })
+    });
+
+    results = results.concat(results1.map(it => {
+        return {
+            title: it.name,
+            address: it.locationText,
+            imgs: it.images,
+            id: it.id,
+            coordinates: it.locationCoords
+        };
+    }));
+
     results = await Promise.all(results.map(async it => {
         let saved = await SavedTournaments.findOne({ user, tournament: it.id });
         it.isSave = saved !== undefined;
