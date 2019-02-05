@@ -155,12 +155,16 @@ async function getXCoordinates(lng, lat, user, max) {
             id: it.id,
             coordinates: it.locationCoords,
             registrationStart: it.date,
-            type: "event"
+            type: "event",
+            dates: it.matchTimes,
+            registrationStart: it.date,
+            endRegistration: it.date,
+            note: it.travelInfo
         };
     }));
 
     results = await Promise.all(results.map(async it => {
-        let saved;
+        let saved; console.log({ user, event: it.id });
         if (it.type === "event")
             saved = await SavedTournaments.findOne({ user, tournament: it.id });
         else
