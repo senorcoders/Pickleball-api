@@ -164,11 +164,12 @@ async function getXCoordinates(lng, lat, user, max) {
     }));
 
     results = await Promise.all(results.map(async it => {
-        let saved; console.log({ user, event: it.id });
+        let saved;
         if (it.type === "event")
-            saved = await SavedTournaments.findOne({ user, tournament: it.id });
-        else
             saved = await EventUser.findOne({ user, event: it.id });
+
+        else
+            saved = await SavedTournaments.findOne({ user, tournament: it.id });
         it.isSave = saved !== undefined;
         if (it.isSave === true)
             it.savedId = saved.id;
