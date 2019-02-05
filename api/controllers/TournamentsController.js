@@ -153,7 +153,8 @@ async function getXCoordinates(lng, lat, user, max) {
             address: it.locationText,
             imgs: it.images,
             id: it.id,
-            coordinates: it.locationCoords
+            coordinates: it.locationCoords,
+            registrationStart: it.date
         };
     }));
 
