@@ -183,6 +183,7 @@ module.exports = {
     getImage: catchErrors(async (req, res) => {
         let type = req.param("type"), nameFile = req.param("nameFile"), id = req.param("id");
         let dirname = path.join(IMAGES, type, nameFile);
+        if(type !== "users") dirname = path.join(IMAGES, type, id, nameFile);
 
         // read binary data
         var data = fs.readFileSync(dirname);

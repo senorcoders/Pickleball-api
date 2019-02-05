@@ -76,6 +76,7 @@ module.exports = {
         let lng = Number(req.param("lng")), lat = Number(req.param("lat")),
             user = req.param("user");
         let results = await getXCoordinates(lng, lat, user, 30000);
+        console.log(results);
         let filterDate = req.param("filterDate");
         if (filterDate === "true") {
             console.log(`
