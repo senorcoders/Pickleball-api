@@ -108,7 +108,7 @@ async function getXCoordinates(lng, lat, user, max) {
                     $minDistance: 0
                 }
             },
-            user: new types.ObjectId(user)
+            // user: new types.ObjectId(user)
         }).toArray(function (err, events) {
             if (err) { return reject(err); }
             events = events.map(it => {
