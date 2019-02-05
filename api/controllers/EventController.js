@@ -1,7 +1,7 @@
 const helper = require("./../../helpers")
 const notification = require("../../notifications");
 const managerNoti = require("../controllers/NotificationsController");
-
+const types = require("mongoose").Types;
 module.exports = {
 
     saveWithCourts: catchErrors(async (req, res) => {
@@ -69,6 +69,63 @@ module.exports = {
 
         res.json({});
 
-    })
+    }),
+
+    getXCoordinates: catchErrors(async (req, res) => {
+
+        let lng = Number(req.param("lng")), lat = Number(req.param("lat")),
+            user = req.param("user");
+        let results = await getXCoordinates(lng, lat, user, 30000);
+        let filterDate = req.param("filterDate");
+        if (filterDate === "true") {
+            console.log(`
+                FILTER DATE FOR EVENTS
+            `);
+            let dateStart = Number(req.param("startDate")),
+                dateEnd = Number(req.param("endDate"));
+            results = results.filter(it => {
+                return it.date >= dateStart && it.date <= dateEnd;
+            });
+        }
+        res.json(results);
+    }),
+
 };
+
+async function getXCoordinates(lng, lat, user, max) {
+    var db = Event.getDatastore().manager;
+    var collection = db.collection(Event.tableName);
+
+    let results = await new Promise((resolve, reject) => {
+        collection.find({
+            locationCoords: {
+                $nearSphere: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [lng, lat]
+                    },
+                    $maxDistance: max,
+                    $minDistance: 0
+                }
+            },
+            user: new types.ObjectId(user)
+        }).toArray(function (err, events) {
+            if (err) { return reject(err); }
+            events = events.map(it => {
+                it.id = it._id.toString();
+                return it;
+            })
+            resolve(events);
+        })
+    });
+    // results = await Promise.all(results.map(async it => {
+    //     let saved = await SavedTournaments.findOne({ user, tournament: it.id });
+    //     it.isSave = saved !== undefined;
+    //     if (it.isSave === true)
+    //         it.savedId = saved.id;
+    //     return it;
+    // }));
+
+    return results;
+}
 
