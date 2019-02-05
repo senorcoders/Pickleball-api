@@ -34,6 +34,7 @@ module.exports.bootstrap = async function () {
     var collection = db.collection(Tournaments.tableName);
     collection.createIndex({ coordinates: "2dsphere" });
 
+    console.log(Event);
     var db1 = Event.getDatastore().manager;
     collection = db1.collection(Event.tableName);
     collection.createIndex({ locationCoords: "2dsphere" });
