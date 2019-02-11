@@ -76,7 +76,9 @@ module.exports = {
             let dateStart = Number(req.param("startDate")),
                 dateEnd = Number(req.param("endDate"));
             results = results.filter(it => {
-                return it.registrationStart >= dateStart && it.registrationStart <= dateEnd;
+                // console.log(it.registrationStart, dateStart, it.endRegistration , dateEnd);
+                // console.log(it.registrationStart >= dateStart, it.endRegistration <= dateEnd);
+                return it.registrationStart >= dateStart && it.endRegistration <= dateEnd;
             });
         }
         res.json(results);
@@ -154,7 +156,6 @@ async function getXCoordinates(lng, lat, user, max) {
             imgs: it.images,
             id: it.id,
             coordinates: it.locationCoords,
-            registrationStart: it.date,
             type: "event",
             dates: it.matchTimes,
             registrationStart: it.date,
