@@ -39,7 +39,6 @@ module.exports.routes = {
    * 
    */
   'PATCH /image/user/:userId': "ImageController.saveImageUser",
-
   "GET /images/:type/:nameFile/:id": "ImageController.getImage",
 
   /***************
@@ -48,7 +47,7 @@ module.exports.routes = {
    * 
    */
   "GET /users/finds/:userId": "UserController.search",
-
+  "PUT /user-location": "UserController.changeLocation",
 
   /***********
    * 
@@ -64,7 +63,6 @@ module.exports.routes = {
    * 
    */
   "GET /sails-client": "LiveComunicationController.getSailsClient",
-
   "PUT /suscribe-room": "LiveComunicationController.subscribeToRoom",
 
   /***********

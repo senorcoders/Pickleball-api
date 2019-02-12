@@ -71,6 +71,12 @@ module.exports = {
         res.json({ msg: "success" });
     }),
 
+    changeLocation: catchErrors(async (req, res) => {
+        let location = req.param("location"), id = req.param("idUser");
+        await User.update({ id }, { location });
+        res.json({ msg: "success" });
+    }),
+
     changePasswordWithModel: catchErrors(async (req, res) => {
         let code = req.param("code");
         let forgot = await ForgotPassword.findOne({ id: code, changed: false });
