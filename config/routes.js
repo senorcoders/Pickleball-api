@@ -108,6 +108,13 @@ module.exports.routes = {
 
   /************
    * 
+   * FOR COURT
+   * 
+   */
+  "GET /court-find": "CourtController.getCourts",
+
+  /************
+   * 
    * FOR EVENT
    * 
    */
