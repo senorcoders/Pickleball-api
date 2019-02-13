@@ -32,8 +32,8 @@ module.exports = {
 
     getCourtXPosition: catchErrors(async (req, res) => {
         let lng = Number(req.param("lng")), lat = Number(req.param("lat")),
-            user = req.param("user");
-        let results = await getXCoordinates(lng, lat, user);
+            user = req.param("user"), maxDistance = Number(req.param("maxDistance"));
+        let results = await getXCoordinates(lng, lat, user, maxDistance);
         results = await Promise.all(results.map(async it => {
             it.users = await getUsersCourt(it);
             return it;
@@ -76,7 +76,7 @@ function getUsersCourt(court) {
     });
 }
 
-function getXCoordinates(lng, lat, user) {
+function getXCoordinates(lng, lat, user, maxDistance) {
     var db = Court.getDatastore().manager;
     var collection = db.collection(Court.tableName);
 
@@ -88,7 +88,7 @@ function getXCoordinates(lng, lat, user) {
                         type: "Point",
                         coordinates: [lng, lat]
                     },
-                    $maxDistance: 300,
+                    $maxDistance: maxDistance,
                     $minDistance: 0
                 },
             },
