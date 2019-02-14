@@ -27,7 +27,7 @@ module.exports = {
         }
 
         //Creamos la notification y la enviamos
-        let eventJson = JSON.parse( JSON.stringify(event) );
+        let eventJson = JSON.parse(JSON.stringify(event));
         delete eventJson.courts;
         delete eventJson.players;
         delete eventJson.user;
@@ -74,8 +74,9 @@ module.exports = {
     getXCoordinates: catchErrors(async (req, res) => {
 
         let lng = Number(req.param("lng")), lat = Number(req.param("lat")),
-            user = req.param("user");
-        let results = await getXCoordinates(lng, lat, user, 30000);
+            user = req.param("user"),
+            maxDistance = req.param("maxDistance") !== undefined ? Number(req.param("maxDistance")) : 30000;
+        let results = await getXCoordinates(lng, lat, user, maxDistance);
         console.log(results);
         let filterDate = req.param("filterDate");
         if (filterDate === "true") {

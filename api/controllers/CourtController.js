@@ -32,7 +32,8 @@ module.exports = {
 
     getCourtXPosition: catchErrors(async (req, res) => {
         let lng = Number(req.param("lng")), lat = Number(req.param("lat")),
-            user = req.param("user"), maxDistance = Number(req.param("maxDistance"));
+            user = req.param("user"),
+            maxDistance = req.param("maxDistance") !== undefined ? Number(req.param("maxDistance")) : 30000;
         let results = await getXCoordinates(lng, lat, user, maxDistance);
         results = await Promise.all(results.map(async it => {
             it.users = await getUsersCourt(it);

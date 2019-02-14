@@ -66,7 +66,8 @@ module.exports = {
     getNearUbication: catchErrors(async (req, res) => {
 
         let lng = Number(req.param("lng")), lat = Number(req.param("lat")),
-            user = req.param("user"), maxDistance = Number(req.param("maxDistance"));
+            user = req.param("user"), 
+            maxDistance = req.param("maxDistance") !== undefined ? Number(req.param("maxDistance")) : 30000;
         let results = await getXCoordinates(lng, lat, user, maxDistance);
         let filterDate = req.param("filterDate");
         if (filterDate === "true") {
