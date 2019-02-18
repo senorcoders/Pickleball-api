@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken')
+
 module.exports = {
 
 
@@ -8,7 +10,7 @@ module.exports = {
 
 
   extendedDescription:
-`This action attempts to look up the user record in the database with the
+    `This action attempts to look up the user record in the database with the
 specified email address.  Then, if such a user exists, it uses
 bcrypt to compare the hashed password from the database with the provided
 password attempt.`,
@@ -36,7 +38,7 @@ password attempt.`,
     success: {
       description: 'The requesting user agent has been successfully logged in.',
       extendedDescription:
-`Under the covers, this stores the id of the logged-in user in the session
+        `Under the covers, this stores the id of the logged-in user in the session
 as the \`userId\` key.  The next time this user agent sends a request, assuming
 it includes a cookie (like a web browser), Sails will automatically make this
 user id available as req.session.userId in the corresponding action.  (Also note
@@ -71,15 +73,32 @@ and exposed as \`req.me\`.)`
     });
 
     // If there was no matching user, respond thru the "badCombo" exit.
-    if(!userRecord) {
+    if (!userRecord) {
       throw 'badCombo';
     }
 
     // If the password doesn't match, then also exit thru "badCombo".
     await sails.helpers.passwords.checkPassword(inputs.password, userRecord.password)
-    .intercept('incorrect', 'badCombo');
+      .intercept('incorrect', 'badCombo');
 
-    this.res.json(userRecord);
+    //Agregamos jwt
+    let cargaUtil = userRecord;
+    let secret = require("../../../config/local").secretJwt;
+    await new Promise(function(resolve){
+      jwt.sign(cargaUtil, secret, { expiresIn: 31536000 }, function (err, token) {
+        if (err) {
+          sails.log(err);
+          return res.json({ message: "User not found" });
+          resolve()
+        }
+        // console.log(token);
+        userRecord.token = token;
+
+        this.res.json(userRecord);
+        resolve();
+      }.bind(this));
+    }.bind(this))
+
 
   }
 
