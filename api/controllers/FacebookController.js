@@ -15,7 +15,11 @@ module.exports = {
             _user.loginFacebook = facebook;
             user = await User.create(_user).fetch();
         }
-        let cargaUtil = user;
+        let cargaUtil = {
+            fullName: userRecord.fullName,
+            id: userRecord.id,
+            email: userRecord.email
+        };
         let secret = require("../../config/local").secretJwt;
         jwt.sign(cargaUtil, secret, { expiresIn: 31536000 }, function (err, token) {
             if (err) {

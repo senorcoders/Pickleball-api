@@ -74,9 +74,9 @@ module.exports = {
     getXCoordinates: catchErrors(async (req, res) => {
 
         let lng = Number(req.param("lng")), lat = Number(req.param("lat")),
-            user = req.param("user"),
+            user = req.param("user"), type = req.param("type"),
             maxDistance = req.param("maxDistance") !== undefined ? Number(req.param("maxDistance")) : 30000;
-        let results = await getXCoordinates(lng, lat, user, maxDistance);
+        let results = await getXCoordinates(lng, lat, user, maxDistance, type);
         console.log(results);
         let filterDate = req.param("filterDate");
         if (filterDate === "true") {
@@ -94,7 +94,7 @@ module.exports = {
 
 };
 
-async function getXCoordinates(lng, lat, user, max) {
+async function getXCoordinates(lng, lat, user, max, type) {
     var db = Event.getDatastore().manager;
     var collection = db.collection(Event.tableName);
 
@@ -110,7 +110,7 @@ async function getXCoordinates(lng, lat, user, max) {
                     $minDistance: 0
                 }
             },
-            type: "clinics"
+            type
             // user: new types.ObjectId(user)
         }).toArray(function (err, events) {
             if (err) { return reject(err); }
