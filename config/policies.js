@@ -23,5 +23,16 @@ module.exports.policies = {
     "search": poli,
     "changeLocation": poli
   },
-  
+  ImageController: {
+    getImage: true
+  },
+  EventController: {
+    getXCoordinates: true
+  },
+  TournamentsController: {
+    getNearUbication: true
+  },
+  CourtController: {
+    getCourtXPosition: true
+  }
 };
