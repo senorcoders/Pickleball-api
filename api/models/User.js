@@ -119,6 +119,7 @@ module.exports = {
   customToJSON: function () {
     var obj = this;
     delete obj.password;
+    delete obj.tokens;
     return obj;
   },
 
