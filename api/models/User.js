@@ -74,6 +74,12 @@ module.exports = {
       defaultsTo: true
     },
 
+    showPosition: {
+      type: "boolean",
+      required: false,
+      defaultsTo: true
+    },
+
     zipCode: {
       type: "string",
       required: false
