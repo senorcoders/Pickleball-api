@@ -64,7 +64,7 @@ module.exports = {
 
       payload = helper.normalizePayload(payload);
       let notiProcess = await managerNoti.saveNotification(payload, "chat", chat.to);
-      sails.sockets.broadcast(chat.to, notiProcess);
+      sails.sockets.broadcast(chat.to, "chat");
       sails.sockets.broadcast(chat.to, "new-chat", chatAll);
 
       let tokens = helper.cleanTokensId(user.tokens);
