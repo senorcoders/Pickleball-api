@@ -34,6 +34,10 @@ module.exports.bootstrap = async function () {
     var collection = db.collection(Tournaments.tableName);
     collection.createIndex({ coordinates: "2dsphere" });
 
+    var db2 = CourtState.getDatastore().manager;
+    collection = db2.collection(CourtState.tableName);
+    collection.createIndex({ coordinates: "2dsphere" });
+
     var db1 = Event.getDatastore().manager;
     collection = db1.collection(Event.tableName);
     collection.createIndex({ locationCoords: "2dsphere" });
@@ -78,6 +82,10 @@ module.exports.bootstrap = async function () {
 
   var db = Tournaments.getDatastore().manager;
   var collection = db.collection(Tournaments.tableName);
+  collection.createIndex({ coordinates: "2dsphere" });
+
+  var db2 = CourtState.getDatastore().manager;
+  collection = db2.collection(CourtState.tableName);
   collection.createIndex({ coordinates: "2dsphere" });
 
   var db1 = Event.getDatastore().manager;
