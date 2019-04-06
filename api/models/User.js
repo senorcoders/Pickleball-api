@@ -129,4 +129,14 @@ module.exports = {
     return obj;
   },
 
+  beforeCreate: function (valuesToSet, proceed) {
+    if (
+      valuesToSet.rank === undefined ||
+      valuesToSet.rank < 1 ||
+      isNaN(valuesToSet.rank) === true
+    )
+      valuesToSet.rank = 1;
+    return proceed();
+  }
+
 };
