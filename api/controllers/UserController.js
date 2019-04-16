@@ -93,6 +93,11 @@ module.exports = {
             return res.json({ msg: "success" });
         }
         res.json({ msg: "expired" });
-    })
+    }),
+
+    countResult: catchErrors(async (req, res) => {
+        let result = await User.count({});
+        res.json({ count: result });
+    }),
 };
 

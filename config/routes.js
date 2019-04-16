@@ -48,6 +48,7 @@ module.exports.routes = {
    */
   "GET /users/finds/:userId": "UserController.search",
   "PUT /user-location": "UserController.changeLocation",
+  "GET /user-count": "UserController.countResult",
 
   /***********
    * 
