@@ -92,6 +92,11 @@ module.exports = {
         res.json(results);
     }),
 
+    countResult: catchErrors(async (req, res) => {
+        let result = await User.count({});
+        res.json({ count: result });
+    }),
+
 };
 
 async function getXCoordinates(lng, lat, user, max, type) {

@@ -121,6 +121,7 @@ module.exports.routes = {
   "PATCH /share-event": "EventController.shareEvent",
   "POST /event-images/:eventId": "ImageController.saveImageEvents",
   "GET /event-coordinates": "EventController.getXCoordinates",
+  "GET /event-count": "EventController.countResult",
 
   /**
    * 
